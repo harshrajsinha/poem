@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+  <h1 class="hero-title">काव्य संग्रह</h1>
+  <p class="tagline">पुनर्जा से हारी शान्तराइदों की दुनिया{% if q %} · खोज: "{{ q }}" ({{ total }} परिणाम){% endif %}</p>
+  <a href="#poems" class="btn primary lg">पूरी कविता पढ़ें</a>
+</section>
+
+<div class="layout">
+  {% if writer %}
+  <aside class="writer-card sticky fancy">
+    <div class="writer-avatar">
+      {% if writer.avatar_url %}
+        <img src="{{ writer.avatar_url }}" alt="{{ writer.name }}">
+      {% else %}
+        {{ writer.name[0] if writer and writer.name }}
+      {% endif %}
+    </div>
+    <div class="writer-info">
+      <h3>{{ writer.name }}</h3>
+      <p>www.vermiroremype.com</p>
+    </div>
+  </aside>
+  {% endif %}
+
+  <div>
+    <div id="poems" class="poem-list cols-3">
+      {% for poem in poems %}
+      {% set icons = ['🌅', '📖', '☁️', '❤️', '🗨️'] %}
+      <article class="poem-card">
+        <div class="poem-icon">{{ icons[loop.index0 % 5] }}</div>
+        <h2 class="poem-title"><a href="{{ url_for('poem_detail', poem_id=poem.id) }}">{{ poem.title }}</a></h2>
+        <div class="meta">{{ poem.date_added.strftime('%B %Y') }}</div>
+        <pre class="excerpt">{{ poem.body[:180] }}{% if poem.body|length > 180 %}…{% endif %}</pre>
+        <a class="btn secondary sm" href="{{ url_for('poem_detail', poem_id=poem.id) }}">पूरी कविता</a>
+      </article>
+      {% else %}
+      <p>अभी कोई कविता जोड़ी नहीं गई है।</p>
+      {% endfor %}
+    </div>    {% if total_pages > 1 %}
+    <nav class="pagination" aria-label="Pagination">
+      <a class="page-link {% if page == 1 %}disabled{% endif %}" href="{{ url_for('index', page=page-1, q=q) }}">पिछला पृष्ठ</a>
+      {% for n in range(1, min(total_pages+1, 7)) %}
+        <a class="page-number {% if n == page %}active{% endif %}" href="{{ url_for('index', page=n, q=q) }}">{{ n }}</a>
+      {% endfor %}
+      {% if total_pages > 6 %}<span style="padding: 0 8px;">...</span>{% endif %}
+      <a class="page-link {% if page == total_pages %}disabled{% endif %}" href="{{ url_for('index', page=page+1, q=q) }}">अगला पृष्ठ</a>
+      <span style="margin-left: 16px; color: var(--muted); font-size: 14px;">🕐 हाल्या प्रविष्ठ</span>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<article class="poem-detail">
+  <div class="bg" style="background-image:url('{{ poem.background_image or url_for('static', filename='images/placeholder.svg') }}')"></div>
+  <div class="poem-box raised">
+    <a class="back-link" href="{{ url_for('index') }}">← वापस</a>
+    <h1 class="poem-title">{{ poem.title }}</h1>
+    <div class="chips">
+      <span class="chip">{{ poem.date_added.strftime('%d %B %Y') }}</span>
+      <span class="chip">व्यूज़: {{ poem.view_count }}</span>
+    </div>
+    <pre id="poemText" class="poem-text animate-lines">{{ poem.body }}</pre>
+
+    <form class="reactions" method="post" action="{{ url_for('react', poem_id=poem.id) }}">
+      <button class="btn shadow" name="action" value="like" {% if not subscriber %}title="सदस्य बनकर लाइक करें"{% endif %}>👍 पसंद ({{ likes }})</button>
+      <button class="btn light shadow" name="action" value="dislike" {% if not subscriber %}title="सदस्य बनकर प्रतिक्रिया दें"{% endif %}>👎 नापसंद ({{ dislikes }})</button>
+      {% if not subscriber %}
+        <a class="btn" href="{{ url_for('subscribe') }}">सदस्य बनें</a>
+      {% endif %}
+    </form>
+
+    <section class="comments">
+      <h3>टिप्पणियाँ</h3>
+      {% if subscriber %}
+      <form method="post" action="{{ url_for('comment', poem_id=poem.id) }}">
+        <textarea name="text" rows="3" placeholder="अपनी प्रतिक्रिया लिखें…"></textarea>
+        <button class="btn" type="submit">जोड़ें</button>
+      </form>
+      {% else %}
+      <p><a href="{{ url_for('subscribe') }}">सदस्य</a> बनें और टिप्पणी करें।</p>
+      {% endif %}
+      <ul class="comment-list">
+        {% for c in comments %}
+        <li>
+          <div class="comment-meta">{{ c.created_at.strftime('%d %b %Y %H:%M') }}</div>
+          <div class="comment-text">{{ c.text }}</div>
+        </li>
+        {% else %}
+        <li>पहली टिप्पणी लिखें।</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</article>
+{% endblock %}

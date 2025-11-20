@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>नई कविता जोड़ें</h1>
+<form method="post" enctype="multipart/form-data" class="form">
+  <label>शीर्षक
+    <input type="text" name="title" required>
+  </label>
+  <label>कविता
+    <textarea name="body" rows="10" required></textarea>
+  </label>
+  <div class="row">
+    <label>तारीख (YYYY-MM-DD)
+      <input type="date" name="date_added">
+    </label>
+    <label>बैकग्राउंड इमेज URL
+      <input type="url" name="image_url" placeholder="https://…">
+    </label>
+  </div>
+  <label>या इमेज अपलोड करें
+    <input type="file" name="image_file" accept="image/*">
+  </label>
+  <button class="btn" type="submit">सहेजें</button>
+</form>
+{% endblock %}

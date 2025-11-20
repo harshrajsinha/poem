@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>एडमिन लॉगिन</h1>
+<form method="post" class="form" action="{{ url_for('admin_login', next=request.args.get('next')) }}">
+  <label>पासवर्ड
+    <input type="password" name="password" required autofocus>
+  </label>
+  <button class="btn" type="submit">लॉगिन</button>
+</form>
+<p class="meta">पर्यावरण चर <code>ADMIN_PASSWORD</code> से पासवर्ड सेट करें।</p>
+{% endblock %}

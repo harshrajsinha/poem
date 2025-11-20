@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>सदस्य बनें</h1>
+<form method="post" class="form">
+  <label>नाम
+    <input type="text" name="name" placeholder="वैकल्पिक">
+  </label>
+  <label>ईमेल
+    <input type="email" name="email" required>
+  </label>
+  <button class="btn" type="submit">जुड़ें</button>
+</form>
+{% endblock %}
