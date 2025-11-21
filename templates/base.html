@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>काव्य संग्रह</title>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta+Vaani:wght@500;600;700&family=Noto+Serif+Devanagari:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500&family=Mukta+Vaani:wght@500;600;700&family=Noto+Serif+Devanagari:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#8B3A3A">
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -14,7 +14,7 @@
 <header class="site-header glass">
   <div class="container header-inner">
     <a class="brand" href="{{ url_for('index') }}">
-      <span class="logo">⚪</span><span class="brand-text">काव्य संग्रह</span>
+      <span class="logo">🗨️</span><span class="brand-text">काव्य संग्रह</span>
     </a>
     <form class="search" action="{{ url_for('index') }}" method="get">
       <input type="text" name="q" value="{{ q if q else '' }}" placeholder="कविता खोजें…">
