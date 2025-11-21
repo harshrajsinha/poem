@@ -173,6 +173,19 @@ def add_poem():
         return redirect(url_for('index'))
     return render_template('admin.html')
 
+@app.route('/delete-poem/<int:poem_id>', methods=['POST'])
+@admin_required
+def delete_poem(poem_id: int):
+    poem = Poem.query.get_or_404(poem_id)
+    # Delete associated reactions and comments
+    Reaction.query.filter_by(poem_id=poem.id).delete()
+    Comment.query.filter_by(poem_id=poem.id).delete()
+    
+    db.session.delete(poem)
+    db.session.commit()
+    flash('कविता हटा दी गई!', 'success')
+    return redirect(url_for('index'))
+
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':

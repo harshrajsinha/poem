@@ -1,21 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 <article class="poem-detail">
-  <div class="bg" style="background-image:url('{{ poem.background_image or url_for('static', filename='images/placeholder.svg') }}')"></div>
+  <div class="bg"
+    style="background-image:url('{{ poem.background_image or url_for('static', filename='images/placeholder.svg') }}')">
+  </div>
   <div class="poem-box raised">
     <a class="back-link" href="{{ url_for('index') }}">← वापस</a>
     <h1 class="poem-title">{{ poem.title }}</h1>
     <div class="chips">
       <span class="chip">{{ poem.date_added.strftime('%d %B %Y') }}</span>
       <span class="chip">व्यूज़: {{ poem.view_count }}</span>
+      {% if session.get('is_admin') %}
+      <form action="{{ url_for('delete_poem', poem_id=poem.id) }}" method="post" style="display:inline;"
+        onsubmit="return confirm('क्या आप वाकई इस कविता को हटाना चाहते हैं?');">
+        <button type="submit" class="chip" style="background: #ff4444; color: white; border: none; cursor: pointer;">🗑️
+          हटाएं</button>
+      </form>
+      {% endif %}
     </div>
     <pre id="poemText" class="poem-text animate-lines">{{ poem.body }}</pre>
 
     <form class="reactions" method="post" action="{{ url_for('react', poem_id=poem.id) }}">
-      <button class="btn shadow" name="action" value="like" {% if not subscriber %}title="सदस्य बनकर लाइक करें"{% endif %}>👍 पसंद ({{ likes }})</button>
-      <button class="btn light shadow" name="action" value="dislike" {% if not subscriber %}title="सदस्य बनकर प्रतिक्रिया दें"{% endif %}>👎 नापसंद ({{ dislikes }})</button>
+      <button class="btn shadow" name="action" value="like" {% if not subscriber %}title="सदस्य बनकर लाइक करें" {% endif
+        %}>👍 पसंद ({{ likes }})</button>
+      <button class="btn light shadow" name="action" value="dislike" {% if not subscriber
+        %}title="सदस्य बनकर प्रतिक्रिया दें" {% endif %}>👎 नापसंद ({{ dislikes }})</button>
       {% if not subscriber %}
-        <a class="btn" href="{{ url_for('subscribe') }}">सदस्य बनें</a>
+      <a class="btn" href="{{ url_for('subscribe') }}">सदस्य बनें</a>
       {% endif %}
     </form>
 
