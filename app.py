@@ -251,8 +251,14 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         if not Writer.query.first():
-            db.session.add(Writer(name='डॉ. मनस्विनी श्रीवास्तव'))
+            db.session.add(Writer(name='डॉ. मनस्विनी श्रीवास्तव', avatar_url='/static/images/writer.jpg'))
             db.session.commit()
+        else:
+            # Ensure avatar is set if missing
+            writer = Writer.query.first()
+            if not writer.avatar_url:
+                writer.avatar_url = '/static/images/writer.jpg'
+                db.session.commit()
     
     port = 5000
     if len(sys.argv) > 1:
