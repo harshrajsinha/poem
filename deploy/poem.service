@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve Poem App
+After=network.target
+
+[Service]
+# Adjust these paths to match your server
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/Poem
+Environment="PATH=/home/ec2-user/Poem/venv/bin"
+ExecStart=/home/ec2-user/Poem/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8000 poem.app:app
+
+[Install]
+WantedBy=multi-user.target
