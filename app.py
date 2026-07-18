@@ -105,8 +105,10 @@ def index():
     stat.count = (stat.count or 0) + 1
     db.session.commit()
     total_pages = (total + per_page - 1)//per_page
+
+    page_limit = min(total_pages + 1, 7)    
     return render_template('index.html', poems=poems, writer=writer, home_hits=stat.count,
-                           page=page, per_page=per_page, total=total, total_pages=total_pages,
+                           page=page, per_page=per_page, total=total, total_pages=total_pages,page_limit=page_limit,
                            q=q)
 
 @app.route('/poem/<int:poem_id>')

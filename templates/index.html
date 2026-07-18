@@ -41,7 +41,7 @@
     <nav class="pagination" aria-label="Pagination">
       <a class="page-link {% if page == 1 %}disabled{% endif %}" href="{{ url_for('index', page=page-1, q=q) }}">पिछला
         पृष्ठ</a>
-      {% for n in range(1, min(total_pages+1, 7)) %}
+      {% for n in range(1, page_limit) %}
       <a class="page-number {% if n == page %}active{% endif %}" href="{{ url_for('index', page=n, q=q) }}">{{ n }}</a>
       {% endfor %}
       {% if total_pages > 6 %}<span style="padding: 0 8px;">...</span>{% endif %}
